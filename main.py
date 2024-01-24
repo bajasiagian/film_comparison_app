@@ -174,7 +174,7 @@ if (id1 != "") and (id2 != ""):
                 time.sleep(1)
             
             st.header(f'{my_dict1["film"]}🏆')
-            st.write(f'{my_dict1["explanation"]}')
+            st.markdown(f'<div style="text-align: justify;">{my_dict1["explanation"]}</div>', unsafe_allow_html=True)
 
 
 ###------------------------Footer------------------------###
