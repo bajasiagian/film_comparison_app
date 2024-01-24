@@ -4,6 +4,3 @@ plotly == 5.18.0
 requests == 2.31.0
 openai == 1.9.0
 htbuilder == 0.6.2
-fnmatch
-json
-time
