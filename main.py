@@ -91,80 +91,90 @@ if (id1 != "") and (id2 != ""):
 ###-----------------------OpenAI API Comparison-----------------------###
 if (id1 != "") and (id2 != ""):
     st.header("🤔 Still Can't Decide? Let's ask GPT from OpenAI")
-    
-    with st.spinner('Wait for it ⏱️...'):
-        answer = get_chatgpt_ans(get_prompt1(film1=film_title1,film2=film_title2))
-        my_dict = JSON.loads(answer,strict=False)
-        time.sleep(1)
-    str1, str2 = st.columns((5,5))
-    with str1:
-        st.markdown(f'#### {film_title1}')
-        st.markdown(f'<div style="text-align: justify;">{my_dict["synopsis1"]}</div>', unsafe_allow_html=True)
-    with str2:
-        st.markdown(f'#### {film_title2}')
-        st.markdown(f'<div style="text-align: justify;">{my_dict["synopsis2"]}</div>', unsafe_allow_html=True)
+    st.write("")
 
-    ###----------------------------------------Preferences Form----------------------------------------###
-    st.write("")
-    st.write("")
-    st.header("We understand that if you still can't decided, so fill out this preferences form so we can decide which film is the most suited for you")
+    user_key_prompt = "Enter your OpenAI API key to get started. Keep it safe, as it'll be your key to coming back. \n\n**Friendly reminder:** GPT Lab works best with pay-as-you-go API keys. Free trial API keys are limited to 3 requests a minute. For more information on OpenAI API rate limits, check [this link](https://platform.openai.com/docs/guides/rate-limits/overview).\n\n- Don't have an API key? No worries! Create one [here](https://platform.openai.com/account/api-keys).\n- Want to upgrade your free-trial API key? Just enter your billing information [here](https://platform.openai.com/account/billing/overview)."
+    placeholder = "Paste your OpenAI API key here (sk-...)"
     
-    with st.form("my_form"):
-        st.header("Your Film Preferences 🤩")
-        family_friendly = st.select_slider("Content of the Film",
-                                        options=['Kid-Friendly','Neutral','Adult-Focused'],
-                                        value='Neutral')
-        tone = st.select_slider("Tone of the Film",
-                                options=['Dark','Neutral','Uplifting'],
-                                value='Neutral')
-        paced = st.select_slider("Pace of the Film",
-                                options=['Slow','Neutral','Fast'],
-                                value='Neutral')
-        fun = st.select_slider("Atmosphere of the Film",
-                            options=['Serious','Neutral','Entertaining'],
-                            value='Neutral')
-        popularity = st.select_slider("Popularity of the Film",
-                                    options=['Niche','Neutral','Blockbuster'],
-                                    value='Neutral')
-        runtime = st.select_slider("Runtime of the Film",
-                                options=['Lengthy','Neutral','Quick'],
-                                value='Neutral')
-        plot = st.select_slider("Plot of the Film",
-                                options=['Simple','Neutral','Complex'],
-                                value='Neutral')
-        visual = st.select_slider("Visual of the Film",
-                                options=['Minimalist','Neutral','Visually Stunning'],
-                                value='Neutral')
-        submitted = st.form_submit_button("Submit")
-        if submitted:
-            user_preferences = {'family_friendly':family_friendly,
-                                 'tone':tone,
-                                 'paced':paced,
-                                 'fun':fun,
-                                 'popularity':popularity,
-                                 'runtime':runtime,
-                                 'visual':visual,
-                                 'plot':plot}
-        else:
-            user_preferences = {}
-    
-    if user_preferences != {}:
-        with st.spinner('Our recomendation for you is.... 🥁🥁🥁'):
-            answer1 = get_chatgpt_ans(get_prompt2(film1=film_title1,
-                                                film2=film_title2,
-                                                family_friendly=user_preferences['family_friendly'],
-                                                tone=user_preferences['tone'],
-                                                paced=user_preferences['paced'],
-                                                fun=user_preferences['fun'],
-                                                popularity=user_preferences['popularity'],
-                                                runtime=user_preferences['runtime'],
-                                                plot=user_preferences['plot'],
-                                                visual=user_preferences['visual']))
-            my_dict1 = JSON.loads(answer1,strict=False)
+    with st.container():
+        st.markdown("\n")
+        st.info(user_key_prompt)
+        api_key_placeholder = st.text_input("Enter your OpenAI API Key", key="user_key_input", type="password", autocomplete="current-password", placeholder=placeholder)
+
+    if api_key_placeholder != "":
+        with st.spinner('Wait for it ⏱️...'):
+            answer = get_chatgpt_ans(get_prompt1(film1=film_title1,film2=film_title2),api_key=api_key_placeholder)
+            my_dict = JSON.loads(answer,strict=False)
             time.sleep(1)
+        str1, str2 = st.columns((5,5))
+        with str1:
+            st.markdown(f'#### {film_title1}')
+            st.markdown(f'<div style="text-align: justify;">{my_dict["synopsis1"]}</div>', unsafe_allow_html=True)
+        with str2:
+            st.markdown(f'#### {film_title2}')
+            st.markdown(f'<div style="text-align: justify;">{my_dict["synopsis2"]}</div>', unsafe_allow_html=True)
+
+        ###----------------------------------------Preferences Form----------------------------------------###
+        st.write("")
+        st.write("")
+        st.header("We understand that if you still can't decided, so fill out this preferences form so we can decide which film is the most suited for you")
         
-        st.header(f'{my_dict1["film"]}🏆')
-        st.write(f'{my_dict1["explanation"]}')
+        with st.form("my_form"):
+            st.header("Your Film Preferences 🤩")
+            family_friendly = st.select_slider("Content of the Film",
+                                            options=['Kid-Friendly','Neutral','Adult-Focused'],
+                                            value='Neutral')
+            tone = st.select_slider("Tone of the Film",
+                                    options=['Dark','Neutral','Uplifting'],
+                                    value='Neutral')
+            paced = st.select_slider("Pace of the Film",
+                                    options=['Slow','Neutral','Fast'],
+                                    value='Neutral')
+            fun = st.select_slider("Atmosphere of the Film",
+                                options=['Serious','Neutral','Entertaining'],
+                                value='Neutral')
+            popularity = st.select_slider("Popularity of the Film",
+                                        options=['Niche','Neutral','Blockbuster'],
+                                        value='Neutral')
+            runtime = st.select_slider("Runtime of the Film",
+                                    options=['Lengthy','Neutral','Quick'],
+                                    value='Neutral')
+            plot = st.select_slider("Plot of the Film",
+                                    options=['Simple','Neutral','Complex'],
+                                    value='Neutral')
+            visual = st.select_slider("Visual of the Film",
+                                    options=['Minimalist','Neutral','Visually Stunning'],
+                                    value='Neutral')
+            submitted = st.form_submit_button("Submit")
+            if submitted:
+                user_preferences = {'family_friendly':family_friendly,
+                                    'tone':tone,
+                                    'paced':paced,
+                                    'fun':fun,
+                                    'popularity':popularity,
+                                    'runtime':runtime,
+                                    'visual':visual,
+                                    'plot':plot}
+            else:
+                user_preferences = {}
+        
+        if user_preferences != {}:
+            with st.spinner('Our recomendation for you is.... 🥁🥁🥁'):
+                answer1 = get_chatgpt_ans(get_prompt2(film1=film_title1,
+                                                    film2=film_title2,
+                                                    family_friendly=user_preferences['family_friendly'],
+                                                    tone=user_preferences['tone'],
+                                                    paced=user_preferences['paced'],
+                                                    fun=user_preferences['fun'],
+                                                    popularity=user_preferences['popularity'],
+                                                    runtime=user_preferences['runtime'],
+                                                    plot=user_preferences['plot'],
+                                                    visual=user_preferences['visual']),api_key=api_key_placeholder)
+                my_dict1 = JSON.loads(answer1,strict=False)
+                time.sleep(1)
+            
+            st.header(f'{my_dict1["film"]}🏆')
+            st.write(f'{my_dict1["explanation"]}')
 
 
 ###------------------------Footer------------------------###

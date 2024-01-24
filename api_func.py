@@ -17,7 +17,7 @@ def get_movie_detail(film_id):
     querystring = {"tconst":film_id}
 
     headers = {
-        "X-RapidAPI-Key": st.secrets["RAPID_API_KEY"],
+        "X-RapidAPI-Key": st.secrets['RAPID_API_KEY'],
         "X-RapidAPI-Host": "imdb8.p.rapidapi.com"
     }
 
@@ -47,7 +47,7 @@ def get_param(film_id):
     querystring = {"tconst":film_id}
 
     headers = {
-        "X-RapidAPI-Key": st.secrets["RAPID_API_KEY"],
+        "X-RapidAPI-Key": "8dbb38092cmshcdcba90f4977e71p1a08b4jsn5d8b2dcdb822",
         "X-RapidAPI-Host": "imdb8.p.rapidapi.com"
     }
 
@@ -91,8 +91,8 @@ def get_prompt2(film1,film2,family_friendly,tone,paced,fun,popularity,runtime,pl
 
 
 
-def get_chatgpt_ans(prompt):
-    client = OpenAI(api_key = st.secrets["OPEN_API_KEY"])
+def get_chatgpt_ans(prompt,api_key):
+    client = OpenAI(api_key = api_key)
 
     stream = client.chat.completions.create(
         model = "gpt-3.5-turbo",
