@@ -47,7 +47,7 @@ def get_param(film_id):
     querystring = {"tconst":film_id}
 
     headers = {
-        "X-RapidAPI-Key": "8dbb38092cmshcdcba90f4977e71p1a08b4jsn5d8b2dcdb822",
+        "X-RapidAPI-Key": st.secrets['RAPID_API_KEY'],
         "X-RapidAPI-Host": "imdb8.p.rapidapi.com"
     }
 
