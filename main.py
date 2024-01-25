@@ -104,8 +104,16 @@ if (id1 != "") and (id2 != ""):
     if api_key_placeholder != "":
         with st.spinner('Wait for it ⏱️...'):
             answer = get_chatgpt_ans(get_prompt1(film1=film_title1,film2=film_title2),api_key=api_key_placeholder)
+            
+            if (answer.status_code != 204 and answer.headers["content-type"].strip().startswith("application/json")):
+                try:
+                    answer =  answer.json()
+                except ValueError:
+                    st.warning("Please refresh the page, i still can't figure out to solve this 😅")
+            
             my_dict = JSON.loads(answer,strict=False)
             time.sleep(1)
+
         str1, str2 = st.columns((5,5))
         with str1:
             st.markdown(f'#### {film_title1}')
@@ -170,9 +178,15 @@ if (id1 != "") and (id2 != ""):
                                                     runtime=user_preferences['runtime'],
                                                     plot=user_preferences['plot'],
                                                     visual=user_preferences['visual']),api_key=api_key_placeholder)
+                if (answer1.status_code != 204 and answer1.headers["content-type"].strip().startswith("application/json")):
+                    try:
+                        answer1 =  answer1.json()
+                    except ValueError:
+                        st.warning("Please refresh the page, i still can't figure out to solve this 😅")
+            
                 my_dict1 = JSON.loads(answer1,strict=False)
                 time.sleep(1)
-            
+
             st.header(f'{my_dict1["film"]}🏆')
             st.markdown(f'<div style="text-align: justify;">{my_dict1["explanation"]}</div>', unsafe_allow_html=True)
 
