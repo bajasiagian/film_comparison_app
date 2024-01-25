@@ -70,7 +70,7 @@ def get_prompt1(film1, film2):
     prompt = f"""
             i want to know the synopsis for {film1} and {film2}
             
-            please write the resluts in this format of python dictionary, and at least in 90 words, dont change the synopsis1 and synopsis2, make the dictionary just in one line (no enter):
+            please write the resluts in this format of python dictionary, and at least in 90 words, dont change the synopsis1 and synopsis2, make the output string and just in one line (no enter):
             {'{"synopsis1":synopsis and a glimpse of review for first film,"synopsis2":synopsis and a glimpse of review for second film}'}
         """
 
@@ -84,7 +84,7 @@ def get_prompt2(film1,film2,family_friendly,tone,paced,fun,popularity,runtime,pl
             more {popularity} in popularity, more {runtime} in runtime, more {plot} in the plot, and more{visual} for the visual
 
             please give me your answer in this format of python dictionary and at least in 100 words, please kep the keys of dictionary same as i wrote,
-            you just need fill out the title of your recomended movie as string and your explanation why you choose that film part! make the dictionary just in one line (no enter):
+            you just need fill out the title of your recomended movie as string and your explanation why you choose that film part! make the output string and just in one line (no enter):
             {'{"film":the title of your recomended movie as string, "explanation": elaborate  why you choose that film}'}
         """
     return prompt.replace("\n", "")
